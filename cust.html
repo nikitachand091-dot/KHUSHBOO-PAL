@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurniLux Premium | Customer Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a; --accent: #2563eb; --bg: #fdfdfd; --white: #ffffff;
+            --text-dark: #0f172a; --text-gray: #4b5563; --border: #e5e7eb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background: var(--bg); color: var(--text-dark); overflow-x: hidden; }
+
+        /* Navigation */
+        nav { 
+            background: var(--white); padding: 20px 6%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; 
+        }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { color: var(--text-gray); text-decoration: none; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        nav ul li a:hover, nav ul li a.active { color: var(--accent); }
+
+        /* Hero Section */
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop');
+            height: 350px; background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
+        }
+        .hero-banner h1 { font-size: 3rem; margin-bottom: 10px; }
+
+        /* Page Layout */
+        .container { width: 90%; max-width: 1200px; margin: 40px auto; }
+        .page { display: none; animation: fadeIn 0.5s ease; }
+        .page.active { display: block; }
+
+        /* Description Box */
+        .desc-box { 
+            background: #f0f7ff; border-radius: 12px; border: 1px solid #c2e0ff; 
+            padding: 20px; margin-bottom: 30px; display: flex; align-items: flex-start; gap: 15px;
+        }
+        .desc-box i { color: var(--accent); font-size: 1.2rem; margin-top: 3px; }
+        .desc-box div h4 { color: var(--primary); margin-bottom: 5px; }
+        .desc-box div p { font-size: 0.9rem; color: var(--text-gray); line-height: 1.5; }
+
+        /* Product Cards */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .img-holder { height: 220px; background: #f3f4f6; overflow: hidden; }
+        .img-holder img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .product-card:hover img { scale: 1.1; }
+        .card-info { padding: 20px; }
+        .price-text { font-size: 1.4rem; font-weight: 800; color: var(--accent); display: block; margin: 10px 0; }
+        .btn-view { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+        /* Detail View */
+        .product-details { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; background: white; padding: 40px; border-radius: 20px; border: 1px solid var(--border); }
+        .detail-img { width: 100%; border-radius: 15px; }
+        .spec-list { margin: 20px 0; list-style: none; }
+        .spec-list li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+
+        /* Tables */
+        .table-container { background: white; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f9fafb; padding: 18px; text-align: left; font-size: 0.8rem; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 18px; border-top: 1px solid var(--border); font-size: 0.95rem; }
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+
+        /* Footer */
+        footer { background: var(--primary); color: white; padding: 80px 6% 30px; margin-top: 100px; }
+        .footer-main { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 60px; margin-bottom: 50px; }
+        .footer-col h3 { font-size: 1.5rem; margin-bottom: 20px; color: var(--accent); }
+        .footer-col p, .footer-col li { color: #94a3b8; line-height: 1.8; list-style: none; margin-bottom: 10px; font-size: 0.9rem; }
+        .footer-bottom { border-top: 1px solid #1e293b; padding-top: 30px; text-align: center; color: #475569; font-size: 0.85rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">FURNI<span>LUX</span></a>
+        <ul>
+            <li><a onclick="showTab('shop')" id="t-shop" class="active">Collection</a></li>
+            <li><a onclick="showTab('orders')" id="t-orders">Track Delivery</a></li>
+            <li><a onclick="showTab('history')" id="t-history">Orders History</a></li>
+            <li><a onclick="showTab('feedback')" id="t-feedback">Reviews</a></li>
+        </ul>
+        <div style="font-weight: 700; font-size: 0.9rem;">
+            <i class="fas fa-shopping-bag" style="color:var(--accent); margin-right: 8px;"></i> Cart (0)
+        </div>
+    </nav>
+
+    <div id="shop" class="page active">
+        <div class="hero-banner">
+            <h1>Design Your Dream Home</h1>
+            <p>Premium Indian Craftsmanship Delivered to Your Doorstep</p>
+        </div>
+
+        <div class="container">
+            <div class="desc-box">
+                <i class="fas fa-store"></i>
+                <div>
+                    <h4>Collection Overview</h4>
+                    <p>Explore our latest furniture catalog. All items are crafted with seasoned teak and mahogany wood. Use the 'View Specifications' button to see detailed measurements and wood types before purchasing.</p>
+                </div>
+            </div>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="img-holder"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500"></div>
+                    <div class="card-info">
+                        <h3>Royal Velvet Sofa</h3>
+                        <p>Luxury 3-seater for premium living.</p>
+                        <span class="price-text">₹45,999</span>
+                        <button class="btn-view" onclick="viewDetails('Royal Velvet Sofa', '₹45,999', 'Teak Wood & Velvet', 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500')">View Specifications</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-holder"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500"></div>
+                    <div class="card-info">
+                        <h3>Oakwood Dining Set</h3>
+                        <p>Solid 6-seater dining table.</p>
+                        <span class="price-text">₹82,500</span>
+                        <button class="btn-view">View Specifications</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="img-holder"><img src="https://images.unsplash.com/photo-1505693413171-293669746a50?w=500"></div>
+                    <div class="card-info">
+                        <h3>King Size Bed</h3>
+                        <p>Classic teak bed with storage.</p>
+                        <span class="price-text">₹64,000</span>
+                        <button class="btn-view">View Specifications</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="details" class="page">
+        <div class="container">
+            <button onclick="showTab('shop')" style="background:none; border:none; color:var(--accent); font-weight:bold; cursor:pointer; margin-bottom:20px;">
+                <i class="fas fa-arrow-left"></i> Back to Collections
+            </button>
+            <div class="product-details">
+                <img src="" id="det-img" class="detail-img">
+                <div>
+                    <h2 id="det-title" style="font-size: 2.5rem;">Product Title</h2>
+                    <span class="price-text" id="det-price" style="font-size: 2rem;">₹0.00</span>
+                    <p style="color:var(--text-gray); margin-top: 20px;">This piece is engineered for durability and style. It undergoes a 5-step quality check including wood seasoning and pest control treatment.</p>
+                    <ul class="spec-list">
+                        <li><strong>Material:</strong> <span id="det-mat">Solid Wood</span></li>
+                        <li><strong>Warranty:</strong> 3 Years Onsite Warranty</li>
+                        <li><strong>Lead Time:</strong> 7-10 Working Days</li>
+                        <li><strong>Assembly:</strong> Free Professional Installation</li>
+                    </ul>
+                    <button class="btn-view" style="padding: 18px; font-size: 1.1rem; background: var(--accent);">Buy Now & Pay via UPI</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="orders" class="page">
+        <div class="container">
+            <div class="desc-box">
+                <i class="fas fa-truck"></i>
+                <div>
+                    <h4>Active Logistics Tracking</h4>
+                    <p>Monitor the live status of your furniture transit. Our logistics team ensures that large items are handled with specialized protective padding during shipping.</p>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Ref ID</th><th>Product</th><th>Courier Partner</th><th>Expected Date</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>#FL-901</td><td>Velvet Sofa</td><td>BlueDart</td><td>02 May 2026</td><td><span class="badge" style="background:#fef3c7; color:#92400e;">Out for Delivery</span></td></tr>
+                        <tr><td>#FL-902</td><td>Dining Table</td><td>Delhivery</td><td>05 May 2026</td><td><span class="badge" style="background:#e0f2fe; color:#0369a1;">In Transit</span></td></tr>
+                        <tr><td>#FL-903</td><td>Nightstand</td><td>Ecom Express</td><td>Tomorrow</td><td><span class="badge" style="background:#dcfce7; color:#15803d;">Near Hub</span></td></tr>
+                        <tr><td>#FL-904</td><td>Study Chair</td><td>BlueDart</td><td>04 May 2026</td><td><span class="badge" style="background:#f3f4f6; color:#374151;">Processing</span></td></tr>
+                        <tr><td>#FL-905</td><td>Floor Lamp</td><td>DTDC</td><td>01 May 2026</td><td><span class="badge" style="background:#e0f2fe; color:#0369a1;">Shipped</span></td></tr>
+                        <tr><td>#FL-906</td><td>Bookcase</td><td>BlueDart</td><td>08 May 2026</td><td><span class="badge" style="background:#f3f4f6; color:#374151;">Packaging</span></td></tr>
+                        <tr><td>#FL-907</td><td>Wall Mirror</td><td>Delhivery</td><td>03 May 2026</td><td><span class="badge" style="background:#e0f2fe; color:#0369a1;">In Transit</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="history" class="page">
+        <div class="container">
+            <div class="desc-box">
+                <i class="fas fa-history"></i>
+                <div>
+                    <h4>Financial Order History</h4>
+                    <p>Review your past successful transactions and download GST invoices for warranty claims. All prices shown include 18% GST as per Indian regulations.</p>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Invoice Date</th><th>Item Name</th><th>Amount Paid</th><th>Method</th><th>Result</th></tr></thead>
+                    <tbody>
+                        <tr><td>20 Apr 2026</td><td>Office Desk</td><td>₹12,400</td><td>Net Banking</td><td><b style="color:green">Success</b></td></tr>
+                        <tr><td>15 Mar 2026</td><td>Queen Bed</td><td>₹48,000</td><td>Credit Card</td><td><b style="color:green">Success</b></td></tr>
+                        <tr><td>02 Feb 2026</td><td>Shoe Rack</td><td>₹3,500</td><td>UPI/GPay</td><td><b style="color:green">Success</b></td></tr>
+                        <tr><td>10 Jan 2026</td><td>Bean Bag</td><td>₹2,200</td><td>Cash on Delivery</td><td><b style="color:green">Success</b></td></tr>
+                        <tr><td>25 Dec 2025</td><td>Dining Chairs</td><td>₹15,000</td><td>Debit Card</td><td><b style="color:green">Success</b></td></tr>
+                        <tr><td>14 Nov 2025</td><td>Curtains Set</td><td>₹4,800</td><td>UPI/PhonePe</td><td><b style="color:green">Success</b></td></tr>
+                        <tr><td>30 Oct 2025</td><td>Side Table</td><td>₹1,900</td><td>Net Banking</td><td><b style="color:green">Success</b></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="feedback" class="page">
+        <div class="container">
+            <div class="desc-box">
+                <i class="fas fa-star"></i>
+                <div>
+                    <h4>Community Reviews & Ratings</h4>
+                    <p>Read what other FurniLux customers say about their experience. Ratings are verified based on actual delivery completions.</p>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Verified User</th><th>Product</th><th>Rating</th><th>Customer Comment</th></tr></thead>
+                    <tbody>
+                        <tr><td>Rohit K.</td><td>Velvet Sofa</td><td>⭐⭐⭐⭐⭐</td><td>Extremely soft and comfortable. Worth the price!</td></tr>
+                        <tr><td>Sneha M.</td><td>Study Desk</td><td>⭐⭐⭐⭐</td><td>Design is good but delivery was 1 day late.</td></tr>
+                        <tr><td>Vikram S.</td><td>Dining Set</td><td>⭐⭐⭐⭐⭐</td><td>Solid wood quality is very impressive.</td></tr>
+                        <tr><td>Ananya G.</td><td>King Bed</td><td>⭐⭐⭐⭐⭐</td><td>Huge storage space and very sturdy.</td></tr>
+                        <tr><td>Rahul T.</td><td>Bean Bag</td><td>⭐⭐⭐</td><td>Smaller than I expected, but fabric is nice.</td></tr>
+                        <tr><td>Mansi D.</td><td>Wall Mirror</td><td>⭐⭐⭐⭐</td><td>Looks very elegant in my hallway.</td></tr>
+                        <tr><td>Pooja R.</td><td>Office Chair</td><td>⭐⭐⭐⭐⭐</td><td>Great back support for long work hours.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-main">
+            <div class="footer-col">
+                <h3>FurniLux India</h3>
+                <p>Bringing the finest furniture designs to your home. We specialize in contemporary and traditional Indian wooden furniture with a focus on ergonomics and aesthetics.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Access</h4>
+                <ul>
+                    <li>Browse Catalog</li>
+                    <li>Warranty Terms</li>
+                    <li>Shipping Policy</li>
+                    <li>Contact Support</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Management Support</h4>
+                <p><strong>Lead Administrator:</strong> Khushboo Pal</p>
+                <p><strong>Official Email:</strong> khushboopalkp@gmail.com</p>
+                <p><strong>Head Office:</strong> New Delhi, India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FurniLux Management System. All Rights Reserved. Designed by Khushboo Pal.
+        </div>
+    </footer>
+
+    <script>
+        function showTab(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+            const link = document.getElementById('t-' + id);
+            if(link) link.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function viewDetails(name, price, mat, img) {
+            document.getElementById('det-title').innerText = name;
+            document.getElementById('det-price').innerText = price;
+            document.getElementById('det-mat').innerText = mat;
+            document.getElementById('det-img').src = img;
+            showTab('details');
+        }
+    </script>
+</body>
+</html>

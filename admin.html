@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurniLux Premium Admin | Khushboo Pal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a; --accent: #3b82f6; --bg: #f1f5f9; --white: #ffffff;
+            --text-main: #1e293b; --text-light: #64748b; --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; background: var(--bg); min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 260px; background: var(--primary); color: white; position: fixed; height: 100vh; }
+        .brand { padding: 30px 20px; text-align: center; border-bottom: 1px solid #1e293b; }
+        .brand h2 { color: var(--accent); letter-spacing: 1.5px; }
+        nav { margin-top: 20px; }
+        nav a { display: block; padding: 15px 25px; color: #94a3b8; text-decoration: none; cursor: pointer; border-left: 4px solid transparent; transition: 0.3s; }
+        nav a:hover, nav a.active { background: #1e293b; color: white; border-left-color: var(--accent); }
+
+        /* Main Wrapper */
+        .main-wrapper { margin-left: 260px; width: calc(100% - 260px); display: flex; flex-direction: column; }
+        .main-content { padding: 40px; flex: 1; }
+
+        header { background: var(--white); padding: 20px 35px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 40px; }
+
+        /* Section Visibility */
+        .page-section { display: none; animation: fadeIn 0.4s ease; }
+        .page-section.active { display: block; }
+
+        /* Charts & Visuals */
+        .analytics-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .chart-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .bar-container { display: flex; align-items: flex-end; gap: 15px; height: 150px; margin-top: 20px; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
+        .bar { width: 40px; background: var(--accent); border-radius: 4px 4px 0 0; position: relative; }
+        .bar::after { content: attr(data-label); position: absolute; bottom: -25px; left: 0; font-size: 0.7rem; color: var(--text-light); width: 100%; text-align: center; }
+        
+        .pie-box { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(var(--accent) 0% 60%, #e2e8f0 60% 100%); margin: 20px auto; position: relative; }
+        .pie-box::before { content: "60%"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; font-size: 1.2rem; }
+
+        /* Table & Content */
+        .table-desc-box { background: #e0f2fe; border-left: 5px solid var(--accent); padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; background: #f8fafc; color: var(--text-light); font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+
+        footer { background: #f8fafc; border-top: 1px solid var(--border); padding: 50px 40px; margin-top: 60px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; }
+        .footer-bottom { border-top: 1px solid #cbd5e1; margin-top: 40px; padding-top: 20px; text-align: center; font-size: 0.85rem; color: var(--text-light); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand"><h2>FURNILUX</h2><p>Admin Portal</p></div>
+        <nav>
+            <a onclick="showPage('dash')" id="l-dash" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a onclick="showPage('cust')" id="l-cust"><i class="fas fa-users"></i> Customers</a>
+            <a onclick="showPage('furn')" id="l-furn"><i class="fas fa-couch"></i> Inventory</a>
+            <a onclick="showPage('ord')" id="l-ord"><i class="fas fa-truck"></i> Orders</a>
+            <a onclick="showPage('pay')" id="l-pay"><i class="fas fa-wallet"></i> Payments</a>
+            <a onclick="showPage('feed')" id="l-feed"><i class="fas fa-comment-dots"></i> Feedback</a>
+        </nav>
+    </aside>
+
+    <div class="main-wrapper">
+        <div class="main-content">
+            <header>
+                <h2 id="page-h">Dashboard Analytics</h2>
+                <div style="display:flex; align-items:center; gap:15px">
+                    <div style="text-align:right"><strong>Khushboo Pal</strong><br><small>khushboopalkp@gmail.com</small></div>
+                    <img src="https://ui-avatars.com/api/?name=Khushboopalkp&background=0f172a&color=fff" width="45" style="border-radius:10px">
+                </div>
+            </header>
+
+            <div id="dash" class="page-section active">
+                <div class="analytics-row">
+                    <div class="chart-card">
+                        <h4>Monthly Sales Performance (Graph)</h4>
+                        <div class="bar-container">
+                            <div class="bar" style="height: 40%" data-label="Jan"></div>
+                            <div class="bar" style="height: 70%" data-label="Feb"></div>
+                            <div class="bar" style="height: 55%" data-label="Mar"></div>
+                            <div class="bar" style="height: 90%" data-label="Apr"></div>
+                            <div class="bar" style="height: 65%" data-label="May"></div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Stock Distribution (Pie Chart)</h4>
+                        <div class="pie-box"></div>
+                        <p style="text-align:center; font-size:0.8rem; color:var(--text-light)">60% Modern | 40% Classic</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Summary Report</h3>
+                    <p style="margin-top:10px; color:var(--text-light)">Total Revenue this month has increased by 12.5% compared to last quarter.</p>
+                </div>
+            </div>
+
+            <div id="cust" class="page-section">
+                <div class="table-desc-box"><h4>Customer Database Summary</h4><p>List of verified users currently active on the FurniLux platform.</p></div>
+                <div class="card">
+                    <table>
+                        <thead><tr><th>User ID</th><th>Name</th><th>Email</th><th>Location</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>#C101</td><td>Alice J.</td><td>alice@mail.com</td><td>London</td><td>Premium</td></tr>
+                            <tr><td>#C102</td><td>Robert S.</td><td>rob@mail.com</td><td>New York</td><td>Standard</td></tr>
+                            <tr><td>#C103</td><td>Mansi K.</td><td>mansi@mail.com</td><td>New Delhi</td><td>Premium</td></tr>
+                            <tr><td>#C104</td><td>John Doe</td><td>john@mail.com</td><td>Berlin</td><td>Guest</td></tr>
+                            <tr><td>#C105</td><td>Sarah P.</td><td>sarah@mail.com</td><td>Sydney</td><td>Standard</td></tr>
+                            <tr><td>#C106</td><td>Kevin L.</td><td>kevin@mail.com</td><td>Toronto</td><td>Premium</td></tr>
+                            <tr><td>#C107</td><td>Priya R.</td><td>priya@mail.com</td><td>Mumbai</td><td>Standard</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="furn" class="page-section">
+                <div class="table-desc-box"><h4>Inventory Stock Details</h4><p>Current furniture inventory categorized by material and stock availability.</p></div>
+                <div class="card">
+                    <table>
+                        <thead><tr><th>Code</th><th>Product</th><th>Material</th><th>Price</th><th>Stock</th></tr></thead>
+                        <tbody>
+                            <tr><td>#FN01</td><td>Velvet Sofa</td><td>Premium Fabric</td><td>$850</td><td>12</td></tr>
+                            <tr><td>#FN02</td><td>Oak Bed</td><td>Solid Wood</td><td>$1200</td><td>5</td></tr>
+                            <tr><td>#FN03</td><td>Glass Table</td><td>Tempered Glass</td><td>$450</td><td>8</td></tr>
+                            <tr><td>#FN04</td><td>Study Desk</td><td>Engineered Wood</td><td>$200</td><td>20</td></tr>
+                            <tr><td>#FN05</td><td>Bar Stool</td><td>Metal & Leather</td><td>$120</td><td>15</td></tr>
+                            <tr><td>#FN06</td><td>Wardrobe</td><td>Teak Wood</td><td>$1500</td><td>2</td></tr>
+                            <tr><td>#FN07</td><td>Bean Bag</td><td>Soft Leather</td><td>$80</td><td>30</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="ord" class="page-section">
+                <div class="table-desc-box"><h4>Shipping & Order Queue</h4><p>Tracking the lifecycle of furniture orders from warehouse to doorstep.</p></div>
+                <div class="card">
+                    <table>
+                        <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Priority</th></tr></thead>
+                        <tbody>
+                            <tr><td>#ORD55</td><td>Alice J.</td><td>$850</td><td>Shipped</td><td>High</td></tr>
+                            <tr><td>#ORD56</td><td>Robert S.</td><td>$1200</td><td>Processing</td><td>Medium</td></tr>
+                            <tr><td>#ORD57</td><td>Mansi K.</td><td>$450</td><td>Delivered</td><td>Low</td></tr>
+                            <tr><td>#ORD58</td><td>Sarah P.</td><td>$200</td><td>Pending</td><td>Medium</td></tr>
+                            <tr><td>#ORD59</td><td>Kevin L.</td><td>$1500</td><td>Shipped</td><td>High</td></tr>
+                            <tr><td>#ORD60</td><td>Priya R.</td><td>$120</td><td>Cancelled</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pay" class="page-section">
+                <div class="table-desc-box"><h4>Payment Gateway Logs</h4><p>Detailed financial audit of every transaction processed this week.</p></div>
+                <div class="card">
+                    <table>
+                        <thead><tr><th>TXN ID</th><th>Method</th><th>Amount</th><th>Date</th><th>Result</th></tr></thead>
+                        <tbody>
+                            <tr><td>#TX88</td><td>PayPal</td><td>$850.00</td><td>28 Apr</td><td>Success</td></tr>
+                            <tr><td>#TX89</td><td>Visa Card</td><td>$1200.00</td><td>27 Apr</td><td>Success</td></tr>
+                            <tr><td>#TX90</td><td>UPI</td><td>$450.00</td><td>27 Apr</td><td>Pending</td></tr>
+                            <tr><td>#TX91</td><td>MasterCard</td><td>$200.00</td><td>26 Apr</td><td>Failed</td></tr>
+                            <tr><td>#TX92</td><td>Bank Transfer</td><td>$1500.00</td><td>25 Apr</td><td>Success</td></tr>
+                            <tr><td>#TX93</td><td>Apple Pay</td><td>$80.00</td><td>25 Apr</td><td>Success</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="feed" class="page-section">
+                <div class="table-desc-box"><h4>User Feedback Analytics</h4><p>Aggregated customer satisfaction scores and specific feedback comments.</p></div>
+                <div class="card">
+                    <table>
+                        <thead><tr><th>Review ID</th><th>User</th><th>Rating</th><th>Comment</th></tr></thead>
+                        <tbody>
+                            <tr><td>#RV1</td><td>Mansi K.</td><td>⭐⭐⭐⭐⭐</td><td>Amazing comfort!</td></tr>
+                            <tr><td>#RV2</td><td>John Doe</td><td>⭐⭐⭐⭐</td><td>Good quality but late shipping.</td></tr>
+                            <tr><td>#RV3</td><td>Sarah P.</td><td>⭐⭐⭐⭐⭐</td><td>Perfect for my office.</td></tr>
+                            <tr><td>#RV4</td><td>Kevin L.</td><td>⭐⭐⭐</td><td>Wood color slightly different.</td></tr>
+                            <tr><td>#RV5</td><td>Priya R.</td><td>⭐⭐⭐⭐⭐</td><td>Best value for money.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>FurniLux Global</h4>
+                    <p>Khushboo pal, this portal oversees all furniture chains worldwide. Ensure database consistency before generating weekly reports.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Admin Support</h4>
+                    <p>Manager: Khushboo Pal</p>
+                    <p>Mail: khushboopalkp@gmail.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>System Info</h4>
+                    <p>Version: v3.2.0 (Stable)</p>
+                    <p>SSL: Active Encryption</p>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 FurniLux Management. Built with HTML/CSS/Java.</div>
+        </footer>
+    </div>
+
+    <script>
+        function showPage(id) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById('l-' + id).classList.add('active');
+            
+            const titles = {dash:'Dashboard Analytics', cust:'Customer Relations', furn:'Inventory Tracking', ord:'Order Management', pay:'Financial Gateway', feed:'User Feedback'};
+            document.getElementById('page-h').innerText = titles[id];
+        }
+    </script>
+</body>
+</html>

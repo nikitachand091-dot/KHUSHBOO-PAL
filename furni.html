@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurniLux | View Furniture Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; --white: #ffffff;
+            --text: #1e293b; --light: #64748b; --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); }
+
+        /* FIXED NAVIGATION BAR AS PER YOUR REQUIREMENT */
+        nav { 
+            background: var(--white); padding: 18px 6%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; 
+        }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links li a { color: var(--light); text-decoration: none; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 0.95rem; }
+        .nav-links li a:hover, .nav-links li a.active { color: var(--accent); }
+
+        /* Banner */
+        .simple-line { background: #3b82f6; color: white; text-align: center; padding: 12px; font-size: 0.9rem; font-weight: 500; }
+
+        /* Container */
+        .container { width: 90%; max-width: 1200px; margin: 40px auto; }
+        
+        .page-header { margin-bottom: 35px; }
+        .desc-box { background: #eff6ff; border-left: 5px solid var(--accent); padding: 18px; border-radius: 8px; color: #1e40af; font-size: 0.9rem; }
+
+        /* Search Section (Triggered by Nav) */
+        .search-area { margin-bottom: 40px; display: flex; gap: 10px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid var(--border); }
+        .search-area input { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; font-size: 1rem; }
+        .search-area button { padding: 0 25px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+        /* Furniture Grid */
+        .furniture-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .f-card { background: var(--white); border-radius: 16px; border: 1px solid var(--border); overflow: hidden; transition: 0.4s; }
+        .f-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        
+        .f-img { height: 210px; width: 100%; position: relative; overflow: hidden; background: #f1f5f9; }
+        .f-img img { width: 100%; height: 100%; object-fit: cover; }
+        .category-tag { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+
+        .f-info { padding: 20px; }
+        .f-info h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--primary); }
+        .price-tag { font-size: 1.4rem; font-weight: 800; color: var(--accent); display: block; margin-bottom: 18px; }
+
+        .btn-view-item { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-view-item:hover { background: var(--accent); }
+
+        /* Login Redirect Modal */
+        #authModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.9); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .auth-box { background: white; width: 100%; max-width: 400px; padding: 40px; border-radius: 20px; position: relative; }
+        .close-modal { position: absolute; top: 20px; right: 20px; cursor: pointer; color: var(--light); font-size: 1.2rem; }
+        .auth-box h2 { text-align: center; margin-bottom: 25px; color: var(--primary); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--light); margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+        .btn-login-submit { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+
+        /* Footer */
+        footer { background: var(--primary); color: white; padding: 60px 6% 30px; margin-top: 80px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; }
+        .footer-bottom { border-top: 1px solid #1e293b; padding-top: 25px; margin-top: 40px; text-align: center; font-size: 0.85rem; color: #475569; }
+    </style>
+</head>
+<body>
+
+    <div class="simple-line">
+        <i class="fas fa-couch"></i> Without login browsing possible - Viewing FurniLux Gallery
+    </div>
+
+    <nav>
+        <a href="#" class="logo">FURNI<span>LUX</span></a>
+        <ul class="nav-links">
+            <li><a href="#" class="active">View Furniture</a></li>
+            <li><a onclick="focusSearch()">Search Products</a></li>
+            <li><a onclick="openAuth()">View Details</a></li>
+            <li><a onclick="openAuth()">Redirect to Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Premium Furniture Inventory</h1>
+            <div class="desc-box">
+                <strong>Public View:</strong> Khushboo Pal, here is the current furniture stock. Users can scroll and search. For more details or to buy, the login redirect will trigger.
+            </div>
+        </div>
+
+        <div class="search-area" id="searchSection">
+            <input type="text" id="searchInput" placeholder="Search by name, category, or wood type...">
+            <button>Search</button>
+        </div>
+
+        <div class="furniture-grid">
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Living</span><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500"></div>
+                <div class="f-info"><h3>Royal Velvet Sofa</h3><span class="price-tag">₹45,999</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Dining</span><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500"></div>
+                <div class="f-info"><h3>Teak Dining Set</h3><span class="price-tag">₹82,500</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Bedroom</span><img src="https://images.unsplash.com/photo-1505693413171-293669746a50?w=500"></div>
+                <div class="f-info"><h3>King Storage Bed</h3><span class="price-tag">₹61,000</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Office</span><img src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=500"></div>
+                <div class="f-info"><h3>Ergo Desk</h3><span class="price-tag">₹24,900</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Living</span><img src="https://images.unsplash.com/photo-1598191383441-73bb199c048c?w=500"></div>
+                <div class="f-info"><h3>Accent Chair</h3><span class="price-tag">₹12,400</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Study</span><img src="https://images.unsplash.com/photo-1594620302200-9a762244a156?w=500"></div>
+                <div class="f-info"><h3>Oak Bookshelf</h3><span class="price-tag">₹18,500</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Bedroom</span><img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500"></div>
+                <div class="f-info"><h3>Sliding Wardrobe</h3><span class="price-tag">₹38,000</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+            <div class="f-card">
+                <div class="f-img"><span class="category-tag">Decor</span><img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=500"></div>
+                <div class="f-info"><h3>Marble Coffee Table</h3><span class="price-tag">₹9,999</span><button class="btn-view-item" onclick="openAuth()">View Details</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="authModal">
+        <div class="auth-box">
+            <i class="fas fa-times close-modal" onclick="closeAuth()"></i>
+            <h2>Sign In</h2>
+            <div class="form-group"><label>Email Address</label><input type="email" placeholder="Khushboopalkp@gmail.com"></div>
+            <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
+            <button class="btn-login-submit" onclick="alert('Login Redirect Successful!')">Login</button>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.85rem;">New user? <span style="color:var(--accent); cursor:pointer">Register Here</span></p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>FurniLux India</h3>
+                <p>Managed by Khushboo Pal. Bringing premium Indian woodcraft to your digital screens.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <p>Email: khushboopalkp@gmail.com</p>
+                <p>Location: New Delhi, India</p>
+            </div>
+            <div class="footer-col">
+                <h4>Status</h4>
+                <p>Public Access Enabled</p>
+                <p>Without login browsing possible</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FurniLux. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        function openAuth() {
+            document.getElementById('authModal').style.display = 'flex';
+        }
+        function closeAuth() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+        function focusSearch() {
+            document.getElementById('searchInput').focus();
+            document.getElementById('searchSection').style.borderColor = "#2563eb";
+        }
+    </script>
+</body>
+</html>

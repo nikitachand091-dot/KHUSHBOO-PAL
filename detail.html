@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurniLux | Furniture Details (Guest View)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a; --accent: #2563eb; --bg: #f8fafc; --white: #ffffff;
+            --text: #1e293b; --light: #64748b; --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); }
+
+        /* Navigation Bar (Same as previous) */
+        nav { 
+            background: var(--white); padding: 18px 6%; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; 
+        }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links li a { color: var(--light); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .nav-links li a.active { color: var(--accent); }
+
+        /* Banner */
+        .simple-line { background: #3b82f6; color: white; text-align: center; padding: 12px; font-size: 0.9rem; }
+
+        /* Product Detail Layout */
+        .container { width: 90%; max-width: 1200px; margin: 40px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; background: white; padding: 40px; border-radius: 20px; border: 1px solid var(--border); }
+
+        /* Left: Product Images */
+        .product-gallery img { width: 100%; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .thumb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
+        .thumb-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+        .thumb-grid img:hover { border-color: var(--accent); }
+
+        /* Right: Product Info */
+        .product-info h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
+        .rating { color: #f59e0b; margin-bottom: 15px; display: block; }
+        .price { font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 20px; display: block; }
+        .short-desc { color: var(--light); line-height: 1.7; margin-bottom: 30px; }
+
+        /* Locked/Blur Section */
+        .locked-content { position: relative; border: 1px dashed var(--border); padding: 20px; border-radius: 12px; background: #f9fafb; margin-top: 20px; }
+        .blur-text { filter: blur(4px); user-select: none; }
+        .lock-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.4); border-radius: 12px; }
+        .lock-overlay i { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
+        .lock-overlay p { font-weight: 700; color: var(--primary); font-size: 0.9rem; }
+
+        /* Buttons */
+        .action-btns { margin-top: 40px; display: flex; gap: 15px; }
+        .btn-buy { flex: 2; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 1rem; }
+        .btn-wish { flex: 1; padding: 16px; border: 1.5px solid var(--border); background: white; border-radius: 10px; cursor: pointer; color: var(--primary); }
+
+        /* Login Redirect Panel (Pop-up) */
+        #loginPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.95); z-index: 2000; align-items: center; justify-content: center; }
+        .login-card { background: white; width: 400px; padding: 40px; border-radius: 20px; text-align: center; }
+        .login-card h2 { margin-bottom: 20px; color: var(--primary); }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+        .btn-submit { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 700; margin-top: 15px; cursor: pointer; }
+
+        /* Footer */
+        footer { background: var(--primary); color: white; padding: 60px 6% 30px; margin-top: 80px; }
+        .footer-bottom { border-top: 1px solid #1e293b; padding-top: 25px; margin-top: 40px; text-align: center; font-size: 0.85rem; color: #475569; }
+    </style>
+</head>
+<body>
+
+    <div class="simple-line">Without login browsing possible - Viewing Product Details</div>
+
+    <nav>
+        <a href="#" class="logo">FURNI<span>LUX</span></a>
+        <ul class="nav-links">
+            <li><a href="#" onclick="window.history.back()">View Furniture</a></li>
+            <li><a href="#">Search Products</a></li>
+            <li><a href="#" class="active">View Details</a></li>
+            <li><a onclick="showLogin()">Redirect to Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="product-gallery">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800" alt="Sofa">
+            <div class="thumb-grid">
+                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200">
+                <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=200">
+                <img src="https://images.unsplash.com/photo-1583847268964-b28dc2f51f92?w=200">
+                <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=200">
+            </div>
+        </div>
+
+        <div class="product-info">
+            <span class="rating"><i class="fas fa-star"></i> 4.8 (120 Reviews)</span>
+            <h1>Royal Velvet Sofa</h1>
+            <span class="price">₹45,999</span>
+            <p class="short-desc">This premium sofa features a handcrafted solid wood frame upholstered in stain-resistant Italian velvet. Perfect for adding a touch of luxury to your living room.</p>
+
+            <div class="locked-content">
+                <div class="blur-text">
+                    <p>Dimensions: 84"W x 38"D x 34"H</p>
+                    <p>Material: Solid Teak Wood & Velvet</p>
+                    <p>Warranty: 5 Years Limited Warranty</p>
+                </div>
+                <div class="lock-overlay">
+                    <i class="fas fa-lock"></i>
+                    <p>Login to view full specifications</p>
+                </div>
+            </div>
+
+            <div class="action-btns">
+                <button class="btn-buy" onclick="showLogin()">Buy Now / Add to Cart</button>
+                <button class="btn-wish" onclick="showLogin()"><i class="far fa-heart"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginPanel">
+        <div class="login-card">
+            <i class="fas fa-user-circle" style="font-size: 3rem; color: var(--accent); margin-bottom: 15px;"></i>
+            <h2>Customer Login</h2>
+            <p style="font-size: 0.85rem; color: var(--light); margin-bottom: 25px;">Please login to continue with your purchase.</p>
+            
+            <div class="input-group">
+                <label>Email ID</label>
+                <input type="email" placeholder="khushboopalkp@gmail.com">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            <button class="btn-submit" onclick="alert('Success!')">Login Now</button>
+            <p style="margin-top: 20px; font-size: 0.8rem;">Don't have an account? <span style="color:var(--accent); cursor:pointer">Register Now</span></p>
+            <p style="margin-top: 15px;"><a href="#" onclick="hideLogin()" style="color:var(--light); text-decoration:none; font-size:0.75rem;">← Back to Browsing</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <p>Admin: Khushboo Pal | Email: Khushboopalkp@gmail.com</p>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FurniLux India. <strong>Without login browsing possible</strong>.
+        </div>
+    </footer>
+
+    <script>
+        function showLogin() {
+            document.getElementById('loginPanel').style.display = 'flex';
+        }
+        function hideLogin() {
+            document.getElementById('loginPanel').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
